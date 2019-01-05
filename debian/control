@@ -1,0 +1,18 @@
+Source: mdt-services
+Maintainer: AIY Projects <support-aiyprojects@google.com>
+Build-Depends: debhelper
+Section: misc
+Priority: optional
+
+Package: mdt-services
+Section: misc
+Priority: optional
+Architecture: all
+Depends: sudo, openssh-server, avahi-daemon, runonce, ${misc:Depends}
+Description: Performs initial system setup work
+ This package contains scripts and configurations to support the Mendel
+ Development Tool.
+ .
+ There is no single daemon for MDT, just a bunch of configuration. Removing this
+ package will remove the configurations associated with it and effectively
+ disable the ability to use the MDT with this machine.
