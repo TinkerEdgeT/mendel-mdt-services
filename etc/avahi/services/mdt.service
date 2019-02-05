@@ -2,7 +2,7 @@
   <name replace-wildcards="yes">%h</name>
 
   <service>
-    <type>_google._mdt._tcp</type>
+    <type>_google_mdt._tcp</type>
     <port>22</port>
   </service>
 </service-group>
