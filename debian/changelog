@@ -1,6 +1,7 @@
 mdt-services (2-1) UNRELEASED; urgency=medium
 
   * Adjusting the mdt avahi service to advertise correctly.
+  * Fixing the MDT servicename to match RFC requirements.
 
  -- AIY Projects <support-aiyprojects@google.com>  Tue, 05 Feb 2019 11:12:41 -0800
 
