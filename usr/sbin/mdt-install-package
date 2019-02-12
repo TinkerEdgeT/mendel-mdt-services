@@ -116,7 +116,12 @@ function main
         || die failed to add package to repository: $package_to_install
 
     local package_name=$(get-package-name $package_to_install)
-    apt-get -qq update
+
+    apt-get -qq update \
+            --no-list-cleanup \
+            -o Dir::Etc::SourceList="sources.list.d/00-mdt-services.list" \
+            -o Dir::Etc::SourceParts="-"
+
     apt-get install --reinstall $package_name
 
     remove-package $package_to_install \
