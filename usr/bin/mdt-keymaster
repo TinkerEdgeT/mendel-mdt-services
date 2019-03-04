@@ -1,0 +1,90 @@
+#!/usr/bin/python3 -u
+
+import re
+import os
+import sys
+import socket
+import struct
+
+from http.server import HTTPServer
+from http.server import BaseHTTPRequestHandler
+
+import netifaces
+
+
+USERNAME = 'mendel'
+GROUP = 'mendel'
+SSH_BASE_PATH = '/home/mendel/.ssh'
+AUTHORIZED_KEYS_PATH = os.path.join(SSH_BASE_PATH, 'authorized_keys')
+SERVER_PORT = 41337
+BIND_INTERFACE = 'usb0'
+MDT_KEY_REGEX = re.compile(r'^ssh-rsa .* mdt$')
+
+
+key_received = False
+
+
+def get_iface_address(iface):
+    addresses = netifaces.ifaddresses(iface)
+    inet4_addresses = addresses[socket.AF_INET]
+    ip_address = inet4_addresses[0]['addr']
+    return ip_address
+
+
+class KeyPushHandler(BaseHTTPRequestHandler):
+    key_received = False
+
+    def do_PUT(self):
+        if not KeyPushHandler.key_received:
+            KeyPushHandler.key_received = True
+            self.close_connection = True
+
+            content_length = int(self.headers.get('Content-Length', 0))
+            public_key = self.rfile.read(content_length)
+
+            if not os.path.exists(SSH_BASE_PATH):
+                os.mkdir(SSH_BASE_PATH, 0o700)
+
+            with open(AUTHORIZED_KEYS_PATH, 'ab') as fp:
+                fp.write(public_key)
+
+            sys.stdout.write('authorized_keys file written -- exiting.\n')
+            sys.stdout.flush()
+
+            self.send_response(200, "Ok")
+            self.end_headers()
+
+
+def main():
+    if os.path.exists(AUTHORIZED_KEYS_PATH):
+        print('authorized_keys file already exists.\n', flush=True)
+        with open(AUTHORIZED_KEYS_PATH) as fp:
+            for line in fp.readlines():
+                if re.match(MDT_KEY_REGEX, line):
+                    print('authorized_keys file contains MDT key already -- exiting.\n', flush=True)
+                    sys.exit(0)
+        print('authorized_keys file does not contain an MDT key.\n', flush=True)
+
+    iface = BIND_INTERFACE
+    bind_address = None
+
+    try:
+        bind_address = get_iface_address(iface)
+    except Exception as e:
+        print('Unable to determine {0} IPv4 address: {1}.\n'.format(iface, e), flush=True)
+        sys.exit(1)
+
+    server_address = (bind_address, SERVER_PORT)
+    httpd = HTTPServer(server_address, KeyPushHandler)
+
+    print('Waiting for incoming PUT on {0}:{1}\n'.format(bind_address, SERVER_PORT), flush=True)
+
+    while not KeyPushHandler.key_received:
+        httpd.handle_request()
+
+    print('Received key. Exiting.\n', flush=True)
+    sys.exit(0)
+
+
+if __name__ == '__main__':
+    main()
