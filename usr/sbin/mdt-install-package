@@ -122,7 +122,7 @@ function main
             -o Dir::Etc::SourceList="sources.list.d/00-mdt-services.list" \
             -o Dir::Etc::SourceParts="-"
 
-    apt-get install --reinstall $package_name
+    apt-get install -y --reinstall $package_name
 
     remove-package $package_to_install \
         || die failed to remove package from repository: $package

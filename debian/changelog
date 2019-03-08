@@ -3,7 +3,8 @@ mdt-services (2-1) UNRELEASED; urgency=medium
   * Adjusting the mdt avahi service to advertise correctly.
   * Fixing the MDT servicename to match RFC requirements.
   * Making mdt-install-package only update the local repository.
-  
+  * Make mdt-install-package not prompt for confirmation.
+
  -- AIY Projects <support-aiyprojects@google.com>  Tue, 05 Feb 2019 11:12:41 -0800
 
 mdt-services (1-1) mendel-beaker; urgency=medium
