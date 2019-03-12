@@ -5,10 +5,10 @@ mdt-services (2-1) UNRELEASED; urgency=medium
   * Making mdt-install-package only update the local repository.
   * Make mdt-install-package not prompt for confirmation.
 
- -- AIY Projects <coral-support@google.com>  Tue, 05 Feb 2019 11:12:41 -0800
+ -- Coral <coral-support@google.com>  Tue, 05 Feb 2019 11:12:41 -0800
 
 mdt-services (1-1) mendel-beaker; urgency=medium
 
   * Initial release.
 
- -- AIY Projects <coral-support@google.com>  Mon, 14 Jan 2019 12:01:41 -0800
+ -- Coral <coral-support@google.com>  Mon, 14 Jan 2019 12:01:41 -0800
