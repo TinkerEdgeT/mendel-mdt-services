@@ -2,3 +2,5 @@
 set -e
 
 touch /var/cache/mdt/packages/Packages
+
+#DEBHELPER#
