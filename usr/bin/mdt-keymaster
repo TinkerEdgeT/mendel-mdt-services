@@ -5,6 +5,7 @@ import os
 import sys
 import socket
 import struct
+import time
 
 from http.server import HTTPServer
 from http.server import BaseHTTPRequestHandler
@@ -68,11 +69,16 @@ def main():
     iface = BIND_INTERFACE
     bind_address = None
 
-    try:
-        bind_address = get_iface_address(iface)
-    except Exception as e:
-        print('Unable to determine {0} IPv4 address: {1}.\n'.format(iface, e), flush=True)
-        sys.exit(1)
+    delay = 1
+    while True:
+        try:
+            bind_address = get_iface_address(iface)
+            break
+        except Exception as e:
+            print('Unable to determine {0} IPv4 address: {1}.\n'.format(iface, e), flush=True)
+            print('Waiting {0} seconds before retrying.'.format(delay))
+            time.sleep(delay)
+            delay = min(10, delay * 2)
 
     server_address = (bind_address, SERVER_PORT)
     httpd = HTTPServer(server_address, KeyPushHandler)
