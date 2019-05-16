@@ -1,3 +1,9 @@
+mdt-services (3-1) UNRELEASED; urgency=medium
+
+  * Create a simple bug reporting script to gather system information.
+
+ -- Coral <coral-support@google.com>  Thu, 16 May 2019 12:58:00 -0800
+
 mdt-services (2-1) mendel-chef; urgency=medium
 
   * Install mdt-keymaster service for pushing keys
