@@ -1,8 +1,8 @@
-mdt-services (3-1) UNRELEASED; urgency=medium
+mdt-services (3-1) mendel-day; urgency=medium
 
   * Create a simple bug reporting script to gather system information.
 
- -- Coral <coral-support@google.com>  Thu, 16 May 2019 12:58:00 -0800
+ -- Coral <coral-support@google.com>  Mon, 07 Oct 2019 13:23:50 -0500
 
 mdt-services (2-1) mendel-chef; urgency=medium
 
